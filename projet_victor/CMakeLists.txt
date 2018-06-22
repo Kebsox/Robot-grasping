@@ -143,21 +143,6 @@ add_executable(main src/main.cpp)
 add_dependencies(main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(main ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
 
-add_executable(test1 src/test1.cpp)
-add_dependencies(test1 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(test1 ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
-
-add_executable(test2 src/test2.cpp)
-add_dependencies(test2 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(test2 ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
-
-add_executable(test3 src/test3.cpp)
-add_dependencies(test3 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(test3 ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
-
-add_executable(test_sans_opencv src/test_sans_opencv.cpp)
-add_dependencies(test_sans_opencv ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(test_sans_opencv ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
