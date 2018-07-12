@@ -2,7 +2,7 @@
  
 // 										           //				
  
-//                   		Point cloud saving	v1.0				   //
+//                   	Point cloud saving for R200	v1.1			           //
  
 //			     Final study project INSA 2018				   //
  
@@ -19,19 +19,21 @@
 
 
 //===========================================================================================
-// This code take a picture from the sr300 when you use the Mbouton
-// Save a point cloud and a a rgb image with format name for further processing
+//            This code take a picture from the sr300 when you use the Mbouton
+// 	  Save a point cloud and a a rgb image with format name for further processing
+//		     You can send my an email at : vpj.talbot@gmail.com
 //===========================================================================================
  
 
 
 #include <librealsense/rs.hpp>
+#include <librealsense2/rs.hpp>
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
 #include <iostream>
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_types.h> 
-
+#include <cstdio>
 
 
 using namespace std;
@@ -169,7 +171,7 @@ bool display_next_frame( ){
 
 	imshow( WINDOW_DEPTH, depth8u );
 	cvWaitKey( 1 );
-	cv::cvtColor( rgb, rgb, cv::COLOR_BGR2RGB );
+	//cv::cvtColor( rgb, rgb, cv::COLOR_BGR2RGB );
 	imshow( WINDOW_RGB, rgb );
  	cvWaitKey( 1 );
  
@@ -205,7 +207,7 @@ bool save_picture(){
 	depth8u.convertTo( depth8u, CV_8UC1, 255.0/1000 );
 
 
-	cv::cvtColor( rgb, rgb, cv::COLOR_BGR2RGB );
+	//cv::cvtColor( rgb, rgb, cv::COLOR_BGR2RGB );
 
 	std::string path_rgb = prefix + std::to_string(m)+ std::to_string(c)+ std::to_string(d)+  std::to_string(k)+suffix_rgb;
 	
@@ -289,6 +291,7 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRG
 int main( ) try{
 
 	//take the numerotation from the last time
+ //rs2::pointcloud pc;
 
 	ifstream index("/home/kebsox/catkin_ws/index.txt");
 
@@ -330,7 +333,6 @@ int main( ) try{
 		if(_save){
 			_save=false;
 			create_point_cloud();
-			std::cout << "Tout roule" << std::endl;	
 			save_picture();
 			k++;
 			cout << "Continue 1: yes 2: no ?" <<  endl; 
