@@ -15,14 +15,29 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   pcl_ros
   pcl_conversions
-  sensor_msgs
-  librealsense
+	sensor_msgs
+	librealsense
+	image_transport
+    tf
+    dynamic_reconfigure
+    diagnostic_updater
+  message_generation
+sensor_msgs
+iiwa_ros
+librealsense
+    
 )
 
 find_package(
   PCL 1.8 REQUIRED
 )
 find_package( OpenCV REQUIRED )
+find_package(realsense2)
+if(NOT realsense2_FOUND)
+    message(FATAL_ERROR "\n\n Intel RealSense SDK 2.0 is missing, please install it from https://github.com/IntelRealSense/librealsense/releases\n\n")
+endif()
+
+find_package(Boost REQUIRED COMPONENTS system)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -114,8 +129,9 @@ find_package( OpenCV REQUIRED )
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES projet_victor
-#  CATKIN_DEPENDS roscpp rospy std_msgs
+LIBRARIES projet_victor
+  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
+
 #  DEPENDS system_lib
 )
 
@@ -128,9 +144,11 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+"/home/kebsox/librealsense-2.10.2/include/"
 )
+include_directories(${PCL_INCLUDE_DIRS} )
 
-include_directories(${PCL_INCLUDE_DIRS})
+#include_directories(${PCL_INCLUDE_DIRS} ${realsense_INCLUDE_DIR})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
@@ -142,6 +160,32 @@ add_definitions(${PCL_DEFINITIONS})
 add_executable(main src/main.cpp)
 add_dependencies(main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(main ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
+
+
+
+add_executable(printer_pointcloud_ros src/printer_pointcloud_ros.cpp)
+target_link_libraries(printer_pointcloud_ros ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
+add_dependencies(printer_pointcloud_ros ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(filter src/filter.cpp)
+target_link_libraries(filter ${catkin_LIBRARIES})
+add_dependencies(filter ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(printer_rgb_ros src/printer_rgb_ros.cpp)
+add_dependencies(printer_rgb_ros ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(printer_rgb_ros ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
+
+add_executable(pilotage_kuka src/pilotage_kuka.cpp)
+add_dependencies(pilotage_kuka ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(pilotage_kuka ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
+
+add_executable(printer_depth_ros src/printer_depth_ros.cpp)
+add_dependencies(printer_depth_ros ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(printer_depth_ros ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
+
+#add_executable(Test_rs2 src/Test_rs2.cpp)
+#add_dependencies(Test_rs2 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} )
+#target_link_libraries(Test_rs2 ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
