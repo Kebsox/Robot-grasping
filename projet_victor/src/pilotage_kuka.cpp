@@ -63,7 +63,7 @@ int main (int argc, char **argv) {
 
 			switch (input){	
 				case 1: {//picture position
-					Moveto(iiwa_1,0.0,-3.14/2,0.0,0.0,0.0,-1.57,0.0);
+					Moveto(iiwa_1,-3.14/4,-1.3955,1.0466,0.5233,-0.0872,-1.3955,-1.57);
 					break;
 				}
 			

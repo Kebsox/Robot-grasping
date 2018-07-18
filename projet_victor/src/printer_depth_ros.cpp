@@ -59,8 +59,8 @@ int c=0;  //hundred digit
 int d=0;  //ten digit
 
 //names files system
-const std::string prefix ="depth";//files header
-const std::string suffix = "r.png";//files extension for png data
+const std::string prefix ="pcd";//files header
+const std::string suffix = "d.png";//files extension for png data
 
 //loop boolean
 
